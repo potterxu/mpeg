@@ -21,7 +21,7 @@ const (
 type TransportPrivateData struct {
 	// length of the transport private data section excludes the length byte
 	length uint32
-	data   []byte
+	Data   []byte
 }
 
 func newTransportPrivateData(br bitreader.BitReader) (*TransportPrivateData, uint32, error) {
@@ -31,8 +31,8 @@ func newTransportPrivateData(br bitreader.BitReader) (*TransportPrivateData, uin
 		return nil, 0, err
 	}
 	if tpd.length > 0 {
-		tpd.data = make([]byte, tpd.length)
-		_, err = io.ReadFull(br, tpd.data)
+		tpd.Data = make([]byte, tpd.length)
+		_, err = io.ReadFull(br, tpd.Data)
 		if err == io.EOF {
 			return nil, 0, io.ErrUnexpectedEOF
 		} else if err != nil {

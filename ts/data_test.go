@@ -1,8 +1,10 @@
 package ts_test
 
-import "io"
-import "encoding/base64"
-import "strings"
+import (
+	"encoding/base64"
+	"io"
+	"strings"
+)
 
 const (
 	nullPacketPID uint32 = 0x1fff
@@ -47,13 +49,31 @@ RwAhNmcA//////////////////////////////////////////////////////////////////////
 2d3T66TlzUt9VUnJmpPqqqT4s0fP6pMnRS5rL6qqo68/KhJR++kZ+gt/CU0MqqSew09vQ1LDlScGSg
 z8qwqC7u62hjn3AAA=
 `
+
+	adapationFieldDetailedPacket = `
+R0kQNgpiCAIGKMgo7BCzAAAB4AAAhNANM0dhQs0TR2EKjYA0cQAAAAEJEAAAAAFnZAAorYQ1iH
+QgULBBB1CGsQ6EChYIIOoQ1iHQgULBBB1CGsRzYYgqhDWI5sMQVQhrEc2GIKoQ/6aaTVoxUmyG
+LJLIpDHLEEERJRwoxxYWHR4JBQsF0G0If9evk/Ef1+b4rwhw1gigoLKUB4BE/eA0IEBASAAAAw
+AIAAADAZSgAAAAAWjvPLAAAAEGBgE=
+`
+
+	pcrDataPacket = `
+R0kbOwcQKOmq1gA9AAABwAFagJAII0dN0UOAAoHDQ8zLArP2tjs5bcrafVPjQEVutJEgVavMy0WxGX
+d4d5h11dGHWJAqJiD//YTAZWZmVVVLM4gAAACCyNbLzGHWmV1GYGYHmn456paZpZZH5opI3pKZZ6mL
+RvBE0vMvXweD1p7dFO1Q8NKI3sOxCzIwtrA3atXsbK++EeW1g+QmCDO7nEu63qFMzopMj00tiV7Z0c
+OwoZnmWIn02zRtM64=
+`
 )
 
 func createReader(data string) func() io.Reader {
 	return func() io.Reader { return base64.NewDecoder(base64.StdEncoding, strings.NewReader(data)) }
 }
 
-var nullPacketReader = createReader(nullPacket)
-var dataPacketReader = createReader(dataPacket)
-var fivePacketReader = createReader(shortTsStream)
-var adaptationFieldReader = createReader(adapationFieldPacket)
+var (
+	nullPacketReader              = createReader(nullPacket)
+	dataPacketReader              = createReader(dataPacket)
+	fivePacketReader              = createReader(shortTsStream)
+	adaptationFieldReader         = createReader(adapationFieldPacket)
+	detailedAdaptationFieldReader = createReader(adapationFieldDetailedPacket)
+	pcrDataPacketReader           = createReader(pcrDataPacket)
+)
